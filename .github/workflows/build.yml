@@ -22,9 +22,10 @@ jobs:
           sudo apt-get install -y apktool wget unzip
           wget https://github.com/patrickfav/uber-apk-signer/releases/download/v1.3.0/uber-apk-signer-1.3.0.jar
 
-      - name: Decode Original APK
+      - name: Download and Decode APK
         run: |
-          apktool d apk/base.apk -o decompiled -f
+          wget "https://github.com/far1992ed/8-ball-pool/releases/download/56.35.0/base.apk" -O base.apk
+          apktool -JXmx4g d base.apk -o decompiled -f --no-src
 
       - name: Inject Mod Library
         run: |
@@ -34,7 +35,7 @@ jobs:
 
       - name: Rebuild APK
         run: |
-          apktool b decompiled -o unsigned.apk
+          apktool -JXmx4g b decompiled -o unsigned.apk
 
       - name: Sign and Align APK
         run: |
